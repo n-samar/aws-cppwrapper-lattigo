@@ -2,3 +2,7 @@ bin
 build
 lib
 **/*.sum
+*.ninja
+*.cmake
+CMakeCache.txt
+CMakeFiles

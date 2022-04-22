@@ -1,6 +1,6 @@
 ## C++ Bindings for the Lattigo Homomorphic Encryption Library
 
-This library provides partial C++ bindings for the [Lattigo v2.2.0](https://github.com/ldsec/lattigo/releases/tag/v2.2.0) Go-lang homomorphic encryption library. This wrapper does not attempt to provide a bindings for all public Lattigo APIs, but new bindings are quite easy to add and PRs are welcome.
+This library provides partial C++ bindings for the [Lattigo v3.2.0](https://github.com/tuneinsight/lattigo/releases/tag/v3.2.0) Go-lang homomorphic encryption library. This wrapper does not attempt to provide a bindings for all public Lattigo APIs, but new bindings are quite easy to add and PRs are welcome.
 
 ## Building
 
@@ -19,7 +19,7 @@ ninja -Cbuild
 
 If you are using clang, you may need to compile dependent libraries with `-Wno-c99-extensions` to suppress warnings in the cgo-generated header files.
 
-This library includes an example, which matches the corresponding [Lattigo example](https://github.com/ldsec/lattigo/blob/fa4175901a31d20b5336e7705e6a1243d0477e62/examples/ckks/sigmoid/main.go) as closely as possible.
+This library includes an example, which matches the corresponding [Lattigo example](https://github.com/tuneinsight/lattigo/blob/fa4175901a31d20b5336e7705e6a1243d0477e62/examples/ckks/sigmoid/main.go) as closely as possible.
 The example can be run with
 ```!sh
 cmake -Bbuild -GNinja -DLATTICPP_BUILD_EXAMPLES=ON

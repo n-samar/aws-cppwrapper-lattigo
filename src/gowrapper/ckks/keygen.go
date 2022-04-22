@@ -18,8 +18,8 @@ import "C"
 
 import (
 	"errors"
-	"github.com/ldsec/lattigo/v2/ckks"
-	"github.com/ldsec/lattigo/v2/rlwe"
+	"github.com/tuneinsight/lattigo/v3/ckks"
+	"github.com/tuneinsight/lattigo/v3/rlwe"
 	"lattigo-cpp/marshal"
 	"unsafe"
 )

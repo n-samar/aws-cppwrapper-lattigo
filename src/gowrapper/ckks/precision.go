@@ -15,7 +15,7 @@ struct Lattigo_String {
 import "C"
 
 import (
-	"github.com/ldsec/lattigo/v2/ckks"
+	"github.com/tuneinsight/lattigo/v3/ckks"
 	"math"
 )
 

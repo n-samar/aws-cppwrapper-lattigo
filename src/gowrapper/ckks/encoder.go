@@ -9,7 +9,7 @@ typedef const double constDouble;
 import "C"
 
 import (
-	"github.com/ldsec/lattigo/v2/ckks"
+	"github.com/tuneinsight/lattigo/v3/ckks"
 	"lattigo-cpp/marshal"
 	"math"
 	"unsafe"

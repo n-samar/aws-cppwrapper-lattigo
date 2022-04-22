@@ -19,8 +19,8 @@ import (
 	"bytes"
 	"encoding/gob"
 	"errors"
-	"github.com/ldsec/lattigo/v2/ckks"
-	"github.com/ldsec/lattigo/v2/rlwe"
+	"github.com/tuneinsight/lattigo/v3/ckks"
+	"github.com/tuneinsight/lattigo/v3/rlwe"
 	"lattigo-cpp/marshal"
 	"reflect"
 	"unsafe"
@@ -280,7 +280,7 @@ func lattigo_getDataLenCiphertext(ctHandle Handle9, withMetaData bool) uint64 {
 func lattigo_getDataLenParameters(paramsHandle Handle9, withMetaData bool) uint64 {
 	var params *ckks.Parameters
 	params = getStoredParameters(paramsHandle)
-	// see https://github.com/ldsec/lattigo/issues/115
+	// see https://github.com/tuneinsight/lattigo/issues/115
 	// return params.GetDataLen(withMetaData)
 	paramBytes, err := params.MarshalBinary()
 	if err != nil {

@@ -28,8 +28,8 @@ add_custom_command(
     ${CGO_HEADER_DST}/storage.h
   COMMAND cp -r ${CMAKE_CURRENT_SOURCE_DIR}/. .
 
-  COMMAND go mod download github.com/ldsec/lattigo/v2
-  COMMAND go get github.com/ldsec/lattigo/v2/utils@v2.2.0
+  COMMAND go mod download github.com/tuneinsight/lattigo/v3
+  COMMAND go get github.com/tuneinsight/lattigo/v3/utils@v3.2.0
 
   COMMAND go vet
   COMMAND go fmt ${CMAKE_CURRENT_SOURCE_DIR}/ckks/bootstrap.go
