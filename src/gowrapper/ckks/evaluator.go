@@ -69,7 +69,7 @@ func lattigo_rotateHoisted(evalHandle Handle4, ctInHandle Handle4, ks *C.uint64_
 	}
 
 	var rotatedCts map[int]*ckks.Ciphertext
-	rotatedCts = (*eval).RotateHoisted(ctIn, rotations)
+	(*eval).RotateHoisted(ctIn, rotations, rotatedCts)
 
 	basePtrOut := uintptr(unsafe.Pointer(outHandles))
 	for i := range rotations {

@@ -3,31 +3,41 @@
 
 #pragma once
 
-#include "latticpp/marshal/gohandle.h"
-#include "cgo/keygen.h"
 #include <vector>
+
+#include "cgo/keygen.h"
+#include "latticpp/marshal/gohandle.h"
 
 namespace latticpp {
 
-    struct KeyPairHandle {
-        SecretKey sk;
-        PublicKey pk;
-    };
+struct KeyPairHandle {
+  SecretKey sk;
+  PublicKey pk;
+};
 
-    KeyGenerator newKeyGenerator(const Parameters &params);
+KeyGenerator newKeyGenerator(const Parameters& params);
 
-    KeyPairHandle genKeyPair(const KeyGenerator &keygen);
+KeyPairHandle genKeyPair(const KeyGenerator& keygen);
 
-    KeyPairHandle genKeyPairSparse(const KeyGenerator &keygen, uint64_t hw);
+KeyPairHandle genKeyPairSparse(const KeyGenerator& keygen, uint64_t hw);
 
-    RelinearizationKey genRelinKey(const KeyGenerator &keygen, const SecretKey &sk);
+RelinearizationKey genRelinKey(const KeyGenerator& keygen, const SecretKey& sk);
 
-    RotationKeys genRotationKeysForRotations(const KeyGenerator &keygen, const SecretKey &sk, std::vector<int> shifts);
+RotationKeys genRotationKeysForRotations(const KeyGenerator& keygen,
+                                         const SecretKey& sk,
+                                         std::vector<int> shifts);
 
-    EvaluationKey makeEvaluationKey(const RelinearizationKey &relinKey, const RotationKeys &rotKeys);
+EvaluationKey makeEvaluationKey(const RelinearizationKey& relinKey,
+                                const RotationKeys& rotKeys);
 
-    BootstrappingKey genBootstrappingKey(const KeyGenerator &keygen, const Parameters &params, const BootstrappingParameters &bootParams, const SecretKey &sk, const RelinearizationKey &relinKey, const RotationKeys &rotKeys);
+EvaluationKey genBootstrappingKey(const KeyGenerator& keygen,
+                                  const Parameters& params,
+                                  const BootstrappingParameters& bootParams,
+                                  const SecretKey& sk,
+                                  const RelinearizationKey& relinKey,
+                                  const RotationKeys& rotKeys);
 
-    BootstrappingKey makeBootstrappingKey(const RelinearizationKey &relinKey, const RotationKeys &rotKeys);
+EvaluationKey makeBootstrappingKey(const RelinearizationKey& relinKey,
+                                   const RotationKeys& rotKeys);
 
 }  // namespace latticpp

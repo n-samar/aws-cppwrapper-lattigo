@@ -20,6 +20,7 @@ import (
 	"encoding/gob"
 	"errors"
 	"github.com/tuneinsight/lattigo/v3/ckks"
+	"github.com/tuneinsight/lattigo/v3/ckks/bootstrapping"
 	"github.com/tuneinsight/lattigo/v3/rlwe"
 	"lattigo-cpp/marshal"
 	"reflect"
@@ -61,7 +62,7 @@ func lattigo_marshalBinaryParameters(paramsHandle Handle9, callback C.streamWrit
 
 //export lattigo_marshalBinaryBootstrapParameters
 func lattigo_marshalBinaryBootstrapParameters(paramsHandle Handle9, callback C.streamWriter, stream *C.void) {
-	var params *ckks.BootstrappingParameters
+	var params *bootstrapping.Parameters
 	params = getStoredBootstrappingParameters(paramsHandle)
 
 	// https://kpbird.medium.com/golang-serialize-struct-using-gob-part-2-f6134dd4f22c
@@ -213,7 +214,7 @@ func lattigo_unmarshalBinaryBootstrapParameters(cbuf *C.char, len uint64) Handle
 	var bbuf *bytes.Buffer = bytes.NewBuffer(serializedBytes)
 	var decoder *gob.Decoder = gob.NewDecoder(bbuf)
 
-	var btp_params ckks.BootstrappingParameters
+	var btp_params bootstrapping.Parameters
 	if err := decoder.Decode(&btp_params); err != nil {
 		panic(err)
 	}

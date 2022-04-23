@@ -12,6 +12,7 @@ import "C"
 
 import (
 	"errors"
+	"fmt"
 	"github.com/tuneinsight/lattigo/v3/ckks"
 	"github.com/tuneinsight/lattigo/v3/rlwe"
 	"lattigo-cpp/marshal"
@@ -22,6 +23,7 @@ import (
 type Handle6 = uint64
 
 func getStoredParameters(paramHandle Handle6) *ckks.Parameters {
+	fmt.Println("lattigo_getDefaultCKKSParams")
 	ref := marshal.CrossLangObjMap.Get(paramHandle)
 	return (*ckks.Parameters)(ref.Ptr)
 }
@@ -64,38 +66,6 @@ func lattigo_getDefaultPQParams(paramEnum uint8) Handle6 {
 	return marshal.CrossLangObjMap.Add(unsafe.Pointer(&params))
 }
 
-//export lattigo_newParameters
-func lattigo_newParameters(logN uint64, qi *C.constULong, numQi uint8, pi *C.constULong, numPi uint8, logScale uint8) Handle6 {
-	size := unsafe.Sizeof(uint64(0))
-
-	Qi := make([]uint64, numQi)
-	qiPtr := uintptr(unsafe.Pointer(qi))
-	for i := range Qi {
-		Qi[i] = *(*uint64)(unsafe.Pointer(qiPtr + size*uintptr(i)))
-	}
-
-	Pi := make([]uint64, numPi)
-	piPtr := uintptr(unsafe.Pointer(pi))
-	for i := range Pi {
-		// https://stackoverflow.com/a/32701024/925978
-		Pi[i] = *(*uint64)(unsafe.Pointer(piPtr + size*uintptr(i)))
-	}
-
-	var rlweParams rlwe.Parameters
-	var err error
-	rlweParams, err = rlwe.NewParameters(int(logN), Qi, Pi, rlwe.DefaultSigma)
-	if err != nil {
-		panic(err)
-	}
-
-	var params ckks.Parameters
-	params, err = ckks.NewParameters(rlweParams, int(logN-1), float64(uint64(1)<<uint64(logScale)))
-	if err != nil {
-		panic(err)
-	}
-	return marshal.CrossLangObjMap.Add(unsafe.Pointer(&params))
-}
-
 //export lattigo_newParametersFromLogModuli
 func lattigo_newParametersFromLogModuli(logN uint64, logQi *C.constUChar, numQi uint8, logPi *C.constUChar, numPi uint8, logScale uint8) Handle6 {
 	size := unsafe.Sizeof(uint8(0))
@@ -114,12 +84,12 @@ func lattigo_newParametersFromLogModuli(logN uint64, logQi *C.constUChar, numQi 
 
 	var paramsLit ckks.ParametersLiteral
 	paramsLit = ckks.ParametersLiteral{
-		LogN:     int(logN),
-		LogQ:     LogQi,
-		LogP:     LogPi,
-		Sigma:    rlwe.DefaultSigma,
-		LogSlots: int(logN) - 1,
-		Scale:    float64(uint64(1) << uint64(logScale)),
+		LogN:         int(logN),
+		LogQ:         LogQi,
+		LogP:         LogPi,
+		Sigma:        rlwe.DefaultSigma,
+		LogSlots:     int(logN) - 1,
+		DefaultScale: float64(uint64(1) << uint64(logScale)),
 	}
 
 	var params ckks.Parameters
@@ -163,7 +133,7 @@ func lattigo_maxLevel(paramHandle Handle6) uint64 {
 func lattigo_paramsScale(paramHandle Handle6) float64 {
 	var params *ckks.Parameters
 	params = getStoredParameters(paramHandle)
-	return params.Scale()
+	return params.DefaultScale()
 }
 
 //export lattigo_sigma

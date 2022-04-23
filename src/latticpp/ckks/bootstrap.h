@@ -3,12 +3,14 @@
 
 #pragma once
 
-#include "latticpp/marshal/gohandle.h"
 #include "cgo/bootstrap.h"
+#include "latticpp/marshal/gohandle.h"
 
 namespace latticpp {
 
-    Bootstrapper newBootstrapper(const Parameters &params, const BootstrappingParameters &bootParams, const BootstrappingKey &bootKey);
+Bootstrapper newBootstrapper(const Parameters& params,
+                             const BootstrappingParameters& bootParams,
+                             const EvaluationKey& bootKey);
 
-    Ciphertext bootstrap(const Bootstrapper &btp, const Ciphertext &ct);
+Ciphertext bootstrap(const Bootstrapper& btp, const Ciphertext& ct);
 }  // namespace latticpp
