@@ -53,6 +53,17 @@ func lattigo_rotate(evalHandle Handle4, ctInHandle Handle4, k uint64, ctOutHandl
 	(*eval).Rotate(ctIn, int(k), ctOut)
 }
 
+//export lattigo_setScale
+func lattigo_setScale(evalHandle Handle4, ctInHandle Handle4, scale float64) {
+	var eval *ckks.Evaluator
+	eval = getStoredEvaluator(evalHandle)
+
+	var ctIn *ckks.Ciphertext
+	ctIn = getStoredCiphertext(ctInHandle)
+
+	(*eval).SetScale(ctIn, scale)
+}
+
 //export lattigo_rotateHoisted
 func lattigo_rotateHoisted(evalHandle Handle4, ctInHandle Handle4, ks *C.uint64_t, ksLen uint64, outHandles *C.uint64_t) {
 	var eval *ckks.Evaluator

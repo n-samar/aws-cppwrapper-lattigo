@@ -51,8 +51,8 @@ vector<double> printDebug(const Parameters& params,
 
 int main() {
   BootstrappingParameters btpParams =
-      getBootstrappingParams(BootstrapParams_Set4);
-  Parameters params = getDefaultCKKSParams(3);
+      getBootstrappingParams(BootstrapParams_Set1);
+  Parameters params = getDefaultCKKSParams(0);
 
   cout << "CKKS parameters: logN = " << logN(params)
        << ", logSlots = " << logSlots(params) << ", logQP = " << logQP(params)
