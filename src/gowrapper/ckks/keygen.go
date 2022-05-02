@@ -136,10 +136,8 @@ func lattigo_makeEvaluationKey(relinKeyHandle Handle5, rotKeyHandle Handle5) Han
 
 // Generates any missing Galois keys
 //export lattigo_genBootstrappingKey
-func lattigo_genBootstrappingKey(keygenHandle Handle5, paramHandle Handle5, btpParamsHandle Handle5, skHandle Handle5, relinKeyHandle Handle5, rotKeyHandle Handle5) Handle5 {
+func lattigo_genBootstrappingKey(btpParamsHandle Handle5, paramHandle Handle5, skHandle Handle5) Handle5 {
 	fmt.Println("lattigo_genBootstrappingKey")
-	var keygen *rlwe.KeyGenerator
-	keygen = getStoredKeyGenerator(keygenHandle)
 
 	var params *ckks.Parameters
 	params = getStoredParameters(paramHandle)
@@ -150,28 +148,9 @@ func lattigo_genBootstrappingKey(keygenHandle Handle5, paramHandle Handle5, btpP
 	var sk *rlwe.SecretKey
 	sk = getStoredSecretKey(skHandle)
 
-	// get existing keys
-	var relinKey *rlwe.RelinearizationKey
-	relinKey = getStoredRelinKey(relinKeyHandle)
-
-	// generate the set of keys needed for bootstrapping
-	rotations := btpParams.RotationsForBootstrapping(params.LogN(), params.LogSlots())
-	rotations = append(rotations, (*params).RotationsForTrace(params.LogSlots(), params.LogN()/2)...)
-
-	rotKeys := (*keygen).GenRotationKeysForRotations(rotations, true, sk)
-	rotKeysExtra := (*keygen).GenRotationKeys([]uint64{16320, 16256}, sk)
-	for k, v := range rotKeysExtra.Keys {
-		fmt.Println("Nikola: ", k)
-		rotKeys.Keys[k] = v
-	}
-	for k, _ := range rotKeys.Keys {
-		fmt.Println("Nikola2: ", k)
-	}
-
-	var btpKey rlwe.EvaluationKey
-	btpKey = rlwe.EvaluationKey{Rlk: relinKey, Rtks: rotKeys}
-
-	return marshal.CrossLangObjMap.Add(unsafe.Pointer(&btpKey))
+	var result bootstrapping.EvaluationKeys
+	result = bootstrapping.GenEvaluationKeys(*btpParams, *params, sk)
+	return marshal.CrossLangObjMap.Add(unsafe.Pointer(&result))
 }
 
 //export lattigo_makeBootstrappingKey

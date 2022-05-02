@@ -50,8 +50,7 @@ vector<double> printDebug(const Parameters& params,
 }
 
 int main() {
-  BootstrappingParameters btpParams =
-      getBootstrappingParams(BootstrapParams_Set1);
+  BootstrappingParameters btpParams = getBootstrappingParams(0);
   Parameters params = getDefaultCKKSParams(0);
 
   cout << "CKKS parameters: logN = " << logN(params)
@@ -68,12 +67,7 @@ int main() {
 
   cout << "Generating bootstrapping keys..." << endl;
   cout << "Nikola" << endl;
-  RelinearizationKey relinKey = genRelinKey(kgen, kp.sk);
-  RotationKeys rotKeys =
-      genRotationKeysForRotations(kgen, kp.sk, vector<int>());
-  EvaluationKey btpKey =
-      genBootstrappingKey(kgen, params, btpParams, kp.sk, relinKey, rotKeys);
-  Bootstrapper btp = newBootstrapper(params, btpParams, btpKey);
+  Bootstrapper btp = newBootstrapper(params, btpParams, kp.sk);
   cout << "Done" << endl;
 
   uint64_t num_slots = numSlots(params);

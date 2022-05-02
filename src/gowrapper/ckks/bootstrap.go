@@ -8,7 +8,6 @@ import "C"
 import (
 	"github.com/tuneinsight/lattigo/v3/ckks"
 	"github.com/tuneinsight/lattigo/v3/ckks/bootstrapping"
-	"github.com/tuneinsight/lattigo/v3/rlwe"
 	"lattigo-cpp/marshal"
 	"unsafe"
 )
@@ -22,19 +21,18 @@ func getStoredBootstrapper(btpHandle Handle10) *bootstrapping.Bootstrapper {
 }
 
 //export lattigo_newBootstrapper
-func lattigo_newBootstrapper(paramHandle Handle10, btpParamHandle Handle10, btpKeyHandle Handle10) Handle10 {
+func lattigo_newBootstrapper(paramHandle Handle10, btpParamHandle Handle10, skHandle Handle10) Handle10 {
 	var params *ckks.Parameters
 	params = getStoredParameters(paramHandle)
 
 	var btpParams *bootstrapping.Parameters
 	btpParams = getStoredBootstrappingParameters(btpParamHandle)
 
-	var btpKey *rlwe.EvaluationKey
-	btpKey = getStoredBootstrappingKey(btpKeyHandle)
+	btpKey := bootstrapping.GenEvaluationKeys(*btpParams, *params, getStoredSecretKey(skHandle))
 
 	var btp *bootstrapping.Bootstrapper
 	var err error
-	btp, err = bootstrapping.NewBootstrapper(*params, *btpParams, *btpKey)
+	btp, err = bootstrapping.NewBootstrapper(*params, *btpParams, btpKey)
 	if err != nil {
 		panic(err)
 	}

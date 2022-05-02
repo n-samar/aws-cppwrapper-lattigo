@@ -10,7 +10,7 @@ namespace latticpp {
 
 Bootstrapper newBootstrapper(const Parameters& params,
                              const BootstrappingParameters& bootParams,
-                             const EvaluationKey& bootKey);
+                             const SecretKey& bootKey);
 
 Ciphertext bootstrap(const Bootstrapper& btp, const Ciphertext& ct);
 }  // namespace latticpp

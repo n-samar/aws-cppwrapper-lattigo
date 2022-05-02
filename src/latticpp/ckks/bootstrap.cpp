@@ -9,10 +9,9 @@ namespace latticpp {
 
 Bootstrapper newBootstrapper(const Parameters& params,
                              const BootstrappingParameters& bootParams,
-                             const EvaluationKey& bootKey) {
-  return Bootstrapper(lattigo_newBootstrapper(params.getRawHandle(),
-                                              bootParams.getRawHandle(),
-                                              bootKey.getRawHandle()));
+                             const SecretKey& sk) {
+  return Bootstrapper(lattigo_newBootstrapper(
+      params.getRawHandle(), bootParams.getRawHandle(), sk.getRawHandle()));
 }
 
 Ciphertext bootstrap(const Bootstrapper& btp, const Ciphertext& ct) {

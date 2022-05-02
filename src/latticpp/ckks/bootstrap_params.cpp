@@ -7,9 +7,8 @@ using namespace std;
 
 namespace latticpp {
 
-BootstrappingParameters getBootstrappingParams(
-    const NamedBootstrappingParams paramId) {
-  return BootstrappingParameters(lattigo_getBootstrappingParams(paramId));
+BootstrappingParameters getBootstrappingParams(uint8_t index) {
+  return BootstrappingParameters(lattigo_getBootstrappingParams(index));
 }
 
 }  // namespace latticpp

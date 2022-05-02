@@ -30,12 +30,9 @@ RotationKeys genRotationKeysForRotations(const KeyGenerator& keygen,
 EvaluationKey makeEvaluationKey(const RelinearizationKey& relinKey,
                                 const RotationKeys& rotKeys);
 
-EvaluationKey genBootstrappingKey(const KeyGenerator& keygen,
+EvaluationKey genBootstrappingKey(const BootstrappingParameters& bootParams,
                                   const Parameters& params,
-                                  const BootstrappingParameters& bootParams,
-                                  const SecretKey& sk,
-                                  const RelinearizationKey& relinKey,
-                                  const RotationKeys& rotKeys);
+                                  const SecretKey& sk);
 
 EvaluationKey makeBootstrappingKey(const RelinearizationKey& relinKey,
                                    const RotationKeys& rotKeys);

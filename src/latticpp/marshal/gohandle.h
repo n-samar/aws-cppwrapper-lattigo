@@ -162,7 +162,6 @@ using Encoder = GoHandle<GoType::Encoder>;
 using KeyGenerator = GoHandle<GoType::KeyGenerator>;
 using KeyPair = GoHandle<GoType::KeyPair>;
 using RelinearizationKey = GoHandle<GoType::RelinearizationKey>;
-using EvaluationKey = GoHandle<GoType::EvaluationKey>;
 using Encryptor = GoHandle<GoType::Encryptor>;
 using Decryptor = GoHandle<GoType::Decryptor>;
 using Evaluator = GoHandle<GoType::Evaluator>;

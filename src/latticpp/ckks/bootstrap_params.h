@@ -17,8 +17,7 @@ enum NamedBootstrappingParams {
   BootstrapParams_Set5
 };
 
-BootstrappingParameters getBootstrappingParams(
-    const NamedBootstrappingParams paramId);
+BootstrappingParameters getBootstrappingParams(uint8_t index);
 
 Parameters genParams(const BootstrappingParameters& bootParams);
 

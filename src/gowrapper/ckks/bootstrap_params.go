@@ -24,12 +24,12 @@ func getStoredBootstrappingParameters(bootParamHandle Handle11) *bootstrapping.P
 
 //export lattigo_getBootstrappingParams
 func lattigo_getBootstrappingParams(bootParamEnum uint8) Handle11 {
-	if int(bootParamEnum) >= len(bootstrapping.DefaultParameters) {
+	if int(bootParamEnum) >= len(bootstrapping.DefaultParametersSparse) {
 		panic(errors.New("bootstrapping parameter enum index out of bounds"))
 	}
 
 	var bootParams *bootstrapping.Parameters
-	bootParams = &bootstrapping.DefaultParameters[bootParamEnum]
+	bootParams = &bootstrapping.DefaultParametersSparse[bootParamEnum].BootstrappingParams
 
 	return marshal.CrossLangObjMap.Add(unsafe.Pointer(bootParams))
 }
@@ -37,11 +37,14 @@ func lattigo_getBootstrappingParams(bootParamEnum uint8) Handle11 {
 //export lattigo_getDefaultCKKSParams
 func lattigo_getDefaultCKKSParams(bootParamEnum uint8) Handle11 {
 	fmt.Println("lattigo_getDefaultCKKSParams")
-	if int(bootParamEnum) >= len(bootstrapping.DefaultCKKSParameters) {
+	if int(bootParamEnum) >= len(bootstrapping.DefaultParametersSparse) {
 		panic(errors.New("bootstrapping parameter enum index out of bounds"))
 	}
-
-	params, _ := ckks.NewParametersFromLiteral(bootstrapping.DefaultCKKSParameters[bootParamEnum])
-
+	scheme_params := &bootstrapping.DefaultParametersSparse[bootParamEnum].SchemeParams
+	params, err := ckks.NewParametersFromLiteral(*scheme_params)
+	if err != nil {
+		panic(err)
+	}
+	marshal.CrossLangObjMap.Add(unsafe.Pointer(scheme_params))
 	return marshal.CrossLangObjMap.Add(unsafe.Pointer(&params))
 }
