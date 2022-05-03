@@ -1,0 +1,3 @@
+[submodule "lattigo"]
+	path = lattigo
+	url = git@github.com:n-samar/lattigo.git
