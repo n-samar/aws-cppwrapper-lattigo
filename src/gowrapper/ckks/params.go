@@ -12,7 +12,6 @@ import "C"
 
 import (
 	"errors"
-	"fmt"
 	"github.com/tuneinsight/lattigo/v3/ckks"
 	"github.com/tuneinsight/lattigo/v3/rlwe"
 	"lattigo-cpp/marshal"
@@ -23,7 +22,6 @@ import (
 type Handle6 = uint64
 
 func getStoredParameters(paramHandle Handle6) *ckks.Parameters {
-	fmt.Println("lattigo_getDefaultCKKSParams")
 	ref := marshal.CrossLangObjMap.Get(paramHandle)
 	return (*ckks.Parameters)(ref.Ptr)
 }

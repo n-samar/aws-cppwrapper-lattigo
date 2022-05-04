@@ -17,7 +17,6 @@ struct Lattigo_KeyPairHandle {
 import "C"
 
 import (
-	"fmt"
 	"github.com/tuneinsight/lattigo/v3/ckks"
 	"github.com/tuneinsight/lattigo/v3/ckks/bootstrapping"
 	"github.com/tuneinsight/lattigo/v3/rlwe"
@@ -65,7 +64,6 @@ func getStoredBootstrappingKey(bootKeyHandle Handle5) *rlwe.EvaluationKey {
 
 //export lattigo_newKeyGenerator
 func lattigo_newKeyGenerator(paramHandle Handle5) Handle5 {
-	fmt.Println("lattigo_newKeyGenerator")
 	paramPtr := getStoredParameters(paramHandle)
 	var keyGenerator rlwe.KeyGenerator
 	keyGenerator = ckks.NewKeyGenerator(*paramPtr)
@@ -137,7 +135,6 @@ func lattigo_makeEvaluationKey(relinKeyHandle Handle5, rotKeyHandle Handle5) Han
 // Generates any missing Galois keys
 //export lattigo_genBootstrappingKey
 func lattigo_genBootstrappingKey(btpParamsHandle Handle5, paramHandle Handle5, skHandle Handle5) Handle5 {
-	fmt.Println("lattigo_genBootstrappingKey")
 
 	var params *ckks.Parameters
 	params = getStoredParameters(paramHandle)

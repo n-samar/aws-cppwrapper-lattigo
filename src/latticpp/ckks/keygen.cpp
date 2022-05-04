@@ -44,7 +44,6 @@ EvaluationKey makeEvaluationKey(const RelinearizationKey& relinKey,
 EvaluationKey genBootstrappingKey(const BootstrappingParameters& bootParams,
                                   const Parameters& params,
                                   const SecretKey& sk) {
-  std::cout << "genBootstrappingKey" << std::endl;
   return EvaluationKey(lattigo_genBootstrappingKey(
       bootParams.getRawHandle(), params.getRawHandle(), sk.getRawHandle()));
 }
