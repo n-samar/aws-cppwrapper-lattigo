@@ -7,6 +7,8 @@
 #include <sstream>
 #include <vector>
 
+#include "latticpp/ckks/lattigo_param.h"
+
 using namespace std;
 
 namespace latticpp {
@@ -16,6 +18,7 @@ void writeToStream(void* ostreamPtr, void* data, uint64_t len) {
 }
 
 void marshalBinaryCiphertext(const Ciphertext& ct, std::ostream& stream) {
+  stream << ct.GetLattigoParam();
   lattigo_marshalBinaryCiphertext(ct.getRawHandle(), &writeToStream,
                                   (void*)(&stream));
 }
@@ -61,8 +64,10 @@ Ciphertext unmarshalBinaryCiphertext(istream& stream) {
   // In addition to the difficult parsing problem, you also must import the
   // <vector> and <iterator> headers. Without them, you get obscure errors.
   vector<char> buffer(istreambuf_iterator<char>{stream}, {});
+  LattigoParam param;
+  stream >> param;
   return Ciphertext(
-      lattigo_unmarshalBinaryCiphertext(buffer.data(), buffer.size()));
+      param, lattigo_unmarshalBinaryCiphertext(buffer.data(), buffer.size()));
 }
 
 Parameters unmarshalBinaryParameters(istream& stream) {

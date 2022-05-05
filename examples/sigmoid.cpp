@@ -114,7 +114,8 @@ Ciphertext evaluatePolyFromPowerBasis(double targetScale,
                                       ChebyMap& cMap, Evaluator& eval,
                                       Parameters& params) {
   if (cheby.degree() == 0) {
-    Ciphertext res = newCiphertext(params, 1, level(cMap.at(1)), targetScale);
+    Ciphertext res = newCiphertext(cMap.at(1).GetLattigoParam(), params, 1,
+                                   level(cMap.at(1)), targetScale);
 
     if (abs(cheby.coeffs[0]) > 1e-14) {
       addConst(eval, res, cheby.coeffs[0], res);
@@ -127,8 +128,8 @@ Ciphertext evaluatePolyFromPowerBasis(double targetScale,
 
   double ctScale = targetScale * currentQi;
 
-  Ciphertext res =
-      newCiphertext(params, 1, level(cMap.at(cheby.degree())), ctScale);
+  Ciphertext res = newCiphertext(cMap.at(1).GetLattigoParam(), params, 1,
+                                 level(cMap.at(cheby.degree())), ctScale);
 
   if (abs(cheby.coeffs[0]) > 1e-14) {
     addConst(eval, res, cheby.coeffs[0], res);
@@ -290,7 +291,8 @@ int main() {
   srand(time(nullptr));
 
   // Scheme params
-  Parameters params = getDefaultClassicalParams(PN14QP438);
+  LattigoParam param = LattigoParam(16, 40, 10);
+  Parameters params = getDefaultCKKSParams(param);
 
   Encoder encoder = newEncoder(params);
 
@@ -328,11 +330,11 @@ int main() {
        << values[3] << endl;
 
   // Plaintext creation and encoding process
-  Plaintext plaintext = encodeNTTAtLvlNew(params, encoder, values,
-                                          maxLevel(params), scale(params));
+  Plaintext plaintext =
+      encodeNTTAtLvlNew(params, encoder, values, 10, scale(params));
 
   // Encryption process
-  Ciphertext ciphertext = encryptNew(encryptor, plaintext);
+  Ciphertext ciphertext = encryptNew(param, encryptor, plaintext);
 
   cout << "Evaluation of the function 1/(exp(-x)+1) in the range [-8, 8] "
           "(degree of approximation: 32)"

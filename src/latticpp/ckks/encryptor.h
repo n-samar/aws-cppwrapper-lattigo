@@ -3,12 +3,14 @@
 
 #pragma once
 
-#include "latticpp/marshal/gohandle.h"
 #include "cgo/encryptor.h"
+#include "latticpp/ckks/lattigo_param.h"
+#include "latticpp/marshal/gohandle.h"
 
 namespace latticpp {
 
-    Encryptor newEncryptorFromPk(const Parameters &params, const PublicKey &pk);
+Encryptor newEncryptorFromPk(const Parameters& params, const PublicKey& pk);
 
-    Ciphertext encryptNew(const Encryptor &encryptor, const Plaintext &pt);
+Ciphertext encryptNew(const LattigoParam& param, const Encryptor& encryptor,
+                      const Plaintext& pt);
 }  // namespace latticpp

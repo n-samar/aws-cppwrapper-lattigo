@@ -10,6 +10,7 @@
 #include <iostream>
 
 #include "cgo/storage.h"
+#include "latticpp/ckks/lattigo_param.h"
 
 namespace latticpp {
 
@@ -168,8 +169,21 @@ using Evaluator = GoHandle<GoType::Evaluator>;
 using SecretKey = GoHandle<GoType::SecretKey>;
 using PublicKey = GoHandle<GoType::PublicKey>;
 using Plaintext = GoHandle<GoType::Plaintext>;
-using Ciphertext = GoHandle<GoType::Ciphertext>;
 using RotationKeys = GoHandle<GoType::RotationKeys>;
+
+class Ciphertext {
+ public:
+  Ciphertext(const LattigoParam& param,
+             const GoHandle<GoType::Ciphertext>& go_handle)
+      : param_(param), go_handle_(go_handle) {}
+
+  const LattigoParam& GetLattigoParam() const { return param_; }
+  uint64_t getRawHandle() const { return go_handle_.getRawHandle(); }
+
+ private:
+  LattigoParam param_;
+  GoHandle<GoType::Ciphertext> go_handle_;
+};
 
 }  // namespace latticpp
 #endif

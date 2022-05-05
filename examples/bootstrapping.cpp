@@ -50,8 +50,9 @@ vector<double> printDebug(const Parameters& params,
 }
 
 int main() {
-  BootstrappingParameters btpParams = getBootstrappingParams(0);
-  Parameters params = getDefaultCKKSParams(0);
+  LattigoParam param = LattigoParam(16, 45, 10);
+  BootstrappingParameters btpParams = getBootstrappingParams(param);
+  Parameters params = getDefaultCKKSParams(param);
 
   cout << "CKKS parameters: logN = " << logN(params)
        << ", logSlots = " << logSlots(params) << ", logQP = " << logQP(params)
@@ -76,7 +77,7 @@ int main() {
   Plaintext plaintext = encodeNTTAtLvlNew(params, encoder, values,
                                           maxLevel(params), scale(params));
 
-  Ciphertext ciphertext1 = encryptNew(encryptor, plaintext);
+  Ciphertext ciphertext1 = encryptNew(param, encryptor, plaintext);
 
   cout << "Level after encryption: " << level(ciphertext1) << endl;
   cout << "Scale after encryption: " << log2(scale(ciphertext1)) << endl;

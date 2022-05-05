@@ -4,20 +4,14 @@
 #pragma once
 
 #include "cgo/bootstrap_params.h"
+#include "latticpp/ckks/lattigo_param.h"
 #include "latticpp/marshal/gohandle.h"
 
 namespace latticpp {
 
-// These correspond to the default bootstrapping parameters provided in Lattigo
-enum NamedBootstrappingParams {
-  BootstrapParams_Set1,
-  BootstrapParams_Set2,
-  BootstrapParams_Set3,
-  BootstrapParams_Set4,
-  BootstrapParams_Set5
-};
+uint8_t ParamToIndex(const LattigoParam& param);
 
-BootstrappingParameters getBootstrappingParams(uint8_t index);
+BootstrappingParameters getBootstrappingParams(const LattigoParam& param);
 
 Parameters genParams(const BootstrappingParameters& bootParams);
 
@@ -28,7 +22,8 @@ uint64_t secretHammingWeight(const BootstrappingParameters& bootParams);
 // The multiplicative depth of the bootstrapping circuit
 int bootstrapDepth(const BootstrappingParameters& bootParams);
 
-inline Parameters getDefaultCKKSParams(uint8_t index) {
+inline Parameters getDefaultCKKSParams(const LattigoParam& param) {
+  uint8_t index = ParamToIndex(param);
   return Parameters(lattigo_getDefaultCKKSParams(index));
 }
 

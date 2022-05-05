@@ -23,9 +23,11 @@ vector<Ciphertext> rotateHoisted(const Evaluator& eval, const Ciphertext& ctIn,
   vector<uint64_t> outputHandles(ks.size());
   lattigo_rotateHoisted(eval.getRawHandle(), ctIn.getRawHandle(), ks.data(),
                         ks.size(), outputHandles.data());
-  vector<Ciphertext> outputCts(ks.size());
+  vector<Ciphertext> outputCts;
+  outputCts.reserve(ks.size());
   for (int i = 0; i < ks.size(); i++) {
-    outputCts[i] = Ciphertext(outputHandles[i]);
+    outputCts.emplace_back(
+        Ciphertext(ctIn.GetLattigoParam(), outputHandles[i]));
   }
   return outputCts;
 }
@@ -57,7 +59,8 @@ void rescaleMany(const Evaluator& eval, const Parameters& params,
 
 Ciphertext mulRelinNew(const Evaluator& eval, const Ciphertext& ct0,
                        const Ciphertext& ct1) {
-  return Ciphertext(lattigo_mulRelinNew(eval.getRawHandle(), ct0.getRawHandle(),
+  return Ciphertext(ct0.GetLattigoParam(),
+                    lattigo_mulRelinNew(eval.getRawHandle(), ct0.getRawHandle(),
                                         ct1.getRawHandle()));
 }
 
