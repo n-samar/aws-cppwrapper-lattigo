@@ -21,12 +21,19 @@ uint8_t ParamToIndex(const LattigoParam& param) {
   static std::vector<LattigoParam> params;
   if (params.empty()) {
     // Initialize params
-    std::ifstream ifstream("lattigo/ckks/bootstrapping/default_params.scheme");
-    std::istream_iterator<LattigoParam> start(ifstream), end;
+    std::string file = std::string{__FILE__};
+    std::string filepath = "/tmp/default_params.scheme";
+    std::ifstream ifs(filepath);
+    assert(ifs);
+    std::cout << "NIKOLA FILEPATH: " << filepath << std::endl;
+    std::istream_iterator<LattigoParam> start(ifs), end;
     params = std::vector<LattigoParam>(start, end);
   }
+  assert(!params.empty());
   auto result_idx = std::find(params.begin(), params.end(), param);
   assert(result_idx != params.end());
+  std::cout << "NEW NIKOLA INDEX: " << param << " " << params[0] << std::endl;
+  std::cout << "NEW NIKOLA INDEX: " << result_idx - params.begin() << std::endl;
   return result_idx - params.begin();
 }
 

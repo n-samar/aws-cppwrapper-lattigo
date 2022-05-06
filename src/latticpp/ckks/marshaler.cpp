@@ -18,7 +18,7 @@ void writeToStream(void* ostreamPtr, void* data, uint64_t len) {
 }
 
 void marshalBinaryCiphertext(const Ciphertext& ct, std::ostream& stream) {
-  stream << ct.GetLattigoParam();
+  stream << ct.GetLattigoParam() << "\n";
   lattigo_marshalBinaryCiphertext(ct.getRawHandle(), &writeToStream,
                                   (void*)(&stream));
 }
@@ -63,9 +63,11 @@ Ciphertext unmarshalBinaryCiphertext(istream& stream) {
   // and https://arstechnica.com/civis/viewtopic.php?f=20&t=767929
   // In addition to the difficult parsing problem, you also must import the
   // <vector> and <iterator> headers. Without them, you get obscure errors.
-  vector<char> buffer(istreambuf_iterator<char>{stream}, {});
   LattigoParam param;
   stream >> param;
+  stream.get();
+
+  vector<char> buffer(istreambuf_iterator<char>{stream}, {});
   return Ciphertext(
       param, lattigo_unmarshalBinaryCiphertext(buffer.data(), buffer.size()));
 }
