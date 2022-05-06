@@ -50,7 +50,7 @@ vector<double> printDebug(const Parameters& params,
 }
 
 int main() {
-  LattigoParam param = LattigoParam(16, 45, 10);
+  LattigoParam param = LattigoParam(16, 45, 10, 32);
   BootstrappingParameters btpParams = getBootstrappingParams(param);
   Parameters params = getDefaultCKKSParams(param);
 

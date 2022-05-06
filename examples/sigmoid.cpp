@@ -291,7 +291,7 @@ int main() {
   srand(time(nullptr));
 
   // Scheme params
-  LattigoParam param = LattigoParam(16, 40, 10);
+  LattigoParam param = LattigoParam(16, 40, 10, 32);
   Parameters params = getDefaultCKKSParams(param);
 
   Encoder encoder = newEncoder(params);
