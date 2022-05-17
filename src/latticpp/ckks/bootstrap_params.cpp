@@ -7,6 +7,7 @@
 #include <cassert>
 #include <fstream>
 #include <iterator>
+#include <vector>
 
 using namespace std;
 
