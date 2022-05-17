@@ -24,8 +24,7 @@ uint8_t ParamToIndex(const LattigoParam& param) {
     std::string file = std::string{__FILE__};
     std::string filepath = "/tmp/default_params.scheme";
     std::ifstream ifs(filepath);
-    assert(ifs);
-    std::cout << "NIKOLA FILEPATH: " << filepath << std::endl;
+    assert(!ifs.fail());
     std::istream_iterator<LattigoParam> start(ifs), end;
     params = std::vector<LattigoParam>(start, end);
   }
