@@ -51,8 +51,10 @@ vector<double> printDebug(const Parameters& params,
 
 int main() {
   LattigoParam param = LattigoParam(16, 45, 10, 32);
+  cout << "Finding lattigo params" << std::endl;
   BootstrappingParameters btpParams = getBootstrappingParams(param);
   Parameters params = getDefaultCKKSParams(param);
+  cout << "Found them!" << std::endl;
 
   cout << "CKKS parameters: logN = " << logN(params)
        << ", logSlots = " << logSlots(params) << ", logQP = " << logQP(params)
@@ -67,7 +69,6 @@ int main() {
   Encryptor encryptor = newEncryptorFromPk(params, kp.pk);
 
   cout << "Generating bootstrapping keys..." << endl;
-  cout << "Nikola" << endl;
   Bootstrapper btp = newBootstrapper(params, btpParams, kp.sk);
   cout << "Done" << endl;
 

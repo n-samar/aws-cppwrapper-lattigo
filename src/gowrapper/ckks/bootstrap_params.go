@@ -22,27 +22,29 @@ func getStoredBootstrappingParameters(bootParamHandle Handle11) *bootstrapping.P
 }
 
 //export lattigo_getBootstrappingParams
-func lattigo_getBootstrappingParams(bootParamEnum uint8) Handle11 {
-	if int(bootParamEnum) >= len(bootstrapping.DefaultParametersSparse) {
-		panic(errors.New("bootstrapping parameter enum index out of bounds"))
+func lattigo_getBootstrappingParams(logN uint64, logScale uint64, usableLevels uint64, bootstrappingPrecision uint64) Handle11 {
+	for i := 0; i < len(bootstrapping.DefaultParametersSparse); i++ {
+		candidate := bootstrapping.DefaultParametersSparse[i].SchemeParams
+		if logN == uint64(candidate.LogN) && logScale == candidate.LogScale && usableLevels == candidate.UsableLevels && bootstrappingPrecision == candidate.BootstrappingPrecision {
+			bootParams := &bootstrapping.DefaultParametersSparse[i].BootstrappingParams
+			return marshal.CrossLangObjMap.Add(unsafe.Pointer(bootParams))
+		}
 	}
-
-	var bootParams *bootstrapping.Parameters
-	bootParams = &bootstrapping.DefaultParametersSparse[bootParamEnum].BootstrappingParams
-
-	return marshal.CrossLangObjMap.Add(unsafe.Pointer(bootParams))
+	panic(errors.New("The requested set of bootstrapping.Parameters does not exist"))
 }
 
 //export lattigo_getDefaultCKKSParams
-func lattigo_getDefaultCKKSParams(bootParamEnum uint8) Handle11 {
-	if int(bootParamEnum) >= len(bootstrapping.DefaultParametersSparse) {
-		panic(errors.New("bootstrapping parameter enum index out of bounds"))
+func lattigo_getDefaultCKKSParams(logN uint64, logScale uint64, usableLevels uint64, bootstrappingPrecision uint64) Handle11 {
+	for i := 0; i < len(bootstrapping.DefaultParametersSparse); i++ {
+		candidate := bootstrapping.DefaultParametersSparse[i].SchemeParams
+		if logN == uint64(candidate.LogN) && logScale == candidate.LogScale && usableLevels == candidate.UsableLevels && bootstrappingPrecision == candidate.BootstrappingPrecision {
+			scheme_params := &bootstrapping.DefaultParametersSparse[i].SchemeParams
+			params, err := ckks.NewParametersFromLiteral(*scheme_params)
+			if err != nil {
+				panic(err)
+			}
+			return marshal.CrossLangObjMap.Add(unsafe.Pointer(&params))
+		}
 	}
-	scheme_params := &bootstrapping.DefaultParametersSparse[bootParamEnum].SchemeParams
-	params, err := ckks.NewParametersFromLiteral(*scheme_params)
-	if err != nil {
-		panic(err)
-	}
-	marshal.CrossLangObjMap.Add(unsafe.Pointer(scheme_params))
-	return marshal.CrossLangObjMap.Add(unsafe.Pointer(&params))
+	panic(errors.New("The requested set of bootstrapping.Parameters does not exist"))
 }

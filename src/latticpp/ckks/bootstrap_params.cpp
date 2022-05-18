@@ -14,27 +14,23 @@ using namespace std;
 namespace latticpp {
 
 BootstrappingParameters getBootstrappingParams(const LattigoParam& param) {
-  uint8_t index = ParamToIndex(param);
-  return BootstrappingParameters(lattigo_getBootstrappingParams(index));
+  auto [logN, log_scale, usable_levels, bootstrapping_params] =
+      ParamToIndex(param);
+  return BootstrappingParameters(lattigo_getBootstrappingParams(
+      logN, log_scale, usable_levels, bootstrapping_params));
 }
 
-uint8_t ParamToIndex(const LattigoParam& param) {
-  static std::vector<LattigoParam> params;
-  if (params.empty()) {
-    // Initialize params
-    std::string file = std::string{__FILE__};
-    std::string filepath = "/tmp/default_params.scheme";
-    std::ifstream ifs(filepath);
-    assert(!ifs.fail());
-    std::istream_iterator<LattigoParam> start(ifs), end;
-    params = std::vector<LattigoParam>(start, end);
-  }
-  assert(!params.empty());
-  auto result_idx = std::find(params.begin(), params.end(), param);
-  assert(result_idx != params.end());
-  std::cout << "NEW NIKOLA INDEX: " << param << " " << params[0] << std::endl;
-  std::cout << "NEW NIKOLA INDEX: " << result_idx - params.begin() << std::endl;
-  return result_idx - params.begin();
+Parameters getDefaultCKKSParams(const LattigoParam& param) {
+  auto [logN, log_scale, usable_levels, bootstrapping_params] =
+      ParamToIndex(param);
+  return Parameters(lattigo_getDefaultCKKSParams(logN, log_scale, usable_levels,
+                                                 bootstrapping_params));
+}
+
+std::tuple<uint64_t, uint64_t, uint64_t, uint64_t> ParamToIndex(
+    const LattigoParam& param) {
+  return std::make_tuple(param.LogN(), param.LogScale(), param.UsableLevels(),
+                         param.BootstrappingPrecision());
 }
 
 }  // namespace latticpp

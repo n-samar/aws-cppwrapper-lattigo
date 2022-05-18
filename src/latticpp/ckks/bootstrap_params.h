@@ -9,7 +9,8 @@
 
 namespace latticpp {
 
-uint8_t ParamToIndex(const LattigoParam& param);
+std::tuple<uint64_t, uint64_t, uint64_t, uint64_t> ParamToIndex(
+    const LattigoParam& param);
 
 BootstrappingParameters getBootstrappingParams(const LattigoParam& param);
 
@@ -22,10 +23,7 @@ uint64_t secretHammingWeight(const BootstrappingParameters& bootParams);
 // The multiplicative depth of the bootstrapping circuit
 int bootstrapDepth(const BootstrappingParameters& bootParams);
 
-inline Parameters getDefaultCKKSParams(const LattigoParam& param) {
-  uint8_t index = ParamToIndex(param);
-  return Parameters(lattigo_getDefaultCKKSParams(index));
-}
+Parameters getDefaultCKKSParams(const LattigoParam& param);
 
 }  // namespace latticpp
 
