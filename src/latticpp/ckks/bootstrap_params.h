@@ -3,6 +3,8 @@
 
 #pragma once
 
+#include <tuple>
+
 #include "cgo/bootstrap_params.h"
 #include "latticpp/ckks/lattigo_param.h"
 #include "latticpp/marshal/gohandle.h"
