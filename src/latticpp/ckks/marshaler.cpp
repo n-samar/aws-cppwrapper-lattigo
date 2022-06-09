@@ -63,8 +63,7 @@ Ciphertext unmarshalBinaryCiphertext(istream& stream) {
   // and https://arstechnica.com/civis/viewtopic.php?f=20&t=767929
   // In addition to the difficult parsing problem, you also must import the
   // <vector> and <iterator> headers. Without them, you get obscure errors.
-  LattigoParam param;
-  stream >> param;
+  LattigoParam param = LattigoParam::ReadStream(stream);
   stream.get();
 
   vector<char> buffer(istreambuf_iterator<char>{stream}, {});

@@ -7,11 +7,7 @@ namespace latticpp {
 
 class LattigoParam {
  public:
-  LattigoParam()
-      : log_N_(-1),
-        log_scale_(-1),
-        usable_levels_(-1),
-        bootstrapping_precision_(-1) {}
+  LattigoParam() = delete;
   LattigoParam(int log_N, int log_scale, int usable_levels,
                int bootstrapping_precision)
       : log_N_(log_N),
@@ -29,6 +25,14 @@ class LattigoParam {
            std::to_string(usable_levels_) + "BootstrappingPrecision" +
            std::to_string(bootstrapping_precision_);
   }
+  static LattigoParam ReadStream(std::istream& stream) {
+    int log_N;
+    int log_scale;
+    int usable_levels;
+    int bootstrapping_precision;
+    stream >> log_N >> log_scale >> usable_levels >> bootstrapping_precision;
+    return {log_N, log_scale, usable_levels, bootstrapping_precision};
+  }
 
  private:
   int log_N_;
@@ -36,17 +40,6 @@ class LattigoParam {
   int usable_levels_;
   int bootstrapping_precision_;
 };
-
-inline std::istream& operator>>(std::istream& is, LattigoParam& param) {
-  int log_N;
-  int log_scale;
-  int usable_levels;
-  int bootstrapping_precision;
-  is >> log_N >> log_scale >> usable_levels >> bootstrapping_precision;
-  param =
-      LattigoParam(log_N, log_scale, usable_levels, bootstrapping_precision);
-  return is;
-}
 
 inline std::ostream& operator<<(std::ostream& os, const LattigoParam& param) {
   return os << param.LogN() << " " << param.LogScale() << " "
