@@ -6,7 +6,7 @@ package ckks
 import "C"
 
 import (
-	"github.com/tuneinsight/lattigo/v3/ckks"
+	"github.com/tuneinsight/lattigo/v4/ckks"
 	"lattigo-cpp/marshal"
 	"unsafe"
 )
@@ -30,7 +30,7 @@ func lattigo_level(ctHandle Handle8) uint64 {
 func lattigo_ciphertextScale(ctHandle Handle8) float64 {
 	var ctIn *ckks.Ciphertext
 	ctIn = getStoredCiphertext(ctHandle)
-	return ctIn.ScalingFactor()
+	return ctIn.Scale()
 }
 
 //export lattigo_copyNew

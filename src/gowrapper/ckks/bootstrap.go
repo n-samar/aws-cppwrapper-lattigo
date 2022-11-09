@@ -6,8 +6,8 @@ package ckks
 import "C"
 
 import (
-	"github.com/tuneinsight/lattigo/v3/ckks"
-	"github.com/tuneinsight/lattigo/v3/ckks/bootstrapping"
+	"github.com/tuneinsight/lattigo/v4/ckks"
+	"github.com/tuneinsight/lattigo/v4/ckks/bootstrapping"
 	"lattigo-cpp/marshal"
 	"unsafe"
 )
@@ -48,6 +48,6 @@ func lattigo_bootstrap(btpHandle Handle10, ctHandle Handle10) Handle10 {
 	ctIn = getStoredCiphertext(ctHandle)
 
 	var ctOut *ckks.Ciphertext
-	ctOut = btp.Bootstrapp(ctIn)
+	ctOut = btp.Bootstrap(ctIn)
 	return marshal.CrossLangObjMap.Add(unsafe.Pointer(ctOut))
 }

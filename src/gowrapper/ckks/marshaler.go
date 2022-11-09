@@ -19,9 +19,9 @@ import (
 	"bytes"
 	"encoding/gob"
 	"errors"
-	"github.com/tuneinsight/lattigo/v3/ckks"
-	"github.com/tuneinsight/lattigo/v3/ckks/bootstrapping"
-	"github.com/tuneinsight/lattigo/v3/rlwe"
+	"github.com/tuneinsight/lattigo/v4/ckks"
+	"github.com/tuneinsight/lattigo/v4/ckks/bootstrapping"
+	"github.com/tuneinsight/lattigo/v4/rlwe"
 	"lattigo-cpp/marshal"
 	"reflect"
 	"unsafe"
@@ -288,20 +288,6 @@ func lattigo_getDataLenParameters(paramsHandle Handle9, withMetaData bool) uint6
 		panic(err)
 	}
 	return uint64(len(paramBytes))
-}
-
-//export lattigo_getDataLenSecretKey
-func lattigo_getDataLenSecretKey(skHandle Handle9, withMetaData bool) uint64 {
-	var sk *rlwe.SecretKey
-	sk = getStoredSecretKey(skHandle)
-	return uint64(sk.GetDataLen(withMetaData))
-}
-
-//export lattigo_getDataLenPublicKey
-func lattigo_getDataLenPublicKey(pkHandle Handle9, withMetaData bool) uint64 {
-	var pk *rlwe.PublicKey
-	pk = getStoredPublicKey(pkHandle)
-	return uint64(pk.GetDataLen(withMetaData))
 }
 
 //export lattigo_getDataLenRelinearizationKey

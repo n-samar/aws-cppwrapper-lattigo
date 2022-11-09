@@ -10,8 +10,8 @@ import "C"
 
 import (
 	"errors"
-	"github.com/tuneinsight/lattigo/v3/ckks"
-	"github.com/tuneinsight/lattigo/v3/rlwe"
+	"github.com/tuneinsight/lattigo/v4/ckks"
+	"github.com/tuneinsight/lattigo/v4/rlwe"
 	"lattigo-cpp/marshal"
 	"math"
 	"strconv"
@@ -141,15 +141,14 @@ func lattigo_rescaleMany(evalHandle Handle4, paramsHandle Handle4, ctInHandle Ha
 	var ctIn *ckks.Ciphertext
 	ctIn = getStoredCiphertext(ctInHandle)
 
-	var targetScale float64
-	targetScale = ctIn.Scale
+	targetScale := ctIn.Scale()
 
 	for i := 0; i < int(numRescales); i++ {
 		targetScale /= (float64(params.RingQ().Modulus[ctIn.Level()-i]))
 	}
 
 	if targetScale <= 0 {
-		panic(errors.New("Target scale is too small: " + strconv.FormatFloat(targetScale, 'E', -1, 64) + "\t" + strconv.FormatFloat(ctIn.Scale, 'E', -1, 64) + "\t" + strconv.FormatFloat(math.Log2(ctIn.Scale), 'E', -1, 64) + "\t" + strconv.FormatUint(numRescales, 10)))
+		panic(errors.New("Target scale is too small: " + strconv.FormatFloat(targetScale, 'E', -1, 64) + "\t" + strconv.FormatFloat(ctIn.Scale(), 'E', -1, 64) + "\t" + strconv.FormatFloat(math.Log2(ctIn.Scale()), 'E', -1, 64) + "\t" + strconv.FormatUint(numRescales, 10)))
 	}
 
 	lattigo_rescale(evalHandle, ctInHandle, targetScale, ctOutHandle)

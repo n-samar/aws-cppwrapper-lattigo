@@ -7,8 +7,8 @@ import "C"
 
 import (
 	"errors"
-	"github.com/tuneinsight/lattigo/v3/ckks"
-	"github.com/tuneinsight/lattigo/v3/ckks/bootstrapping"
+	"github.com/tuneinsight/lattigo/v4/ckks"
+	"github.com/tuneinsight/lattigo/v4/ckks/bootstrapping"
 	"lattigo-cpp/marshal"
 	"unsafe"
 )
