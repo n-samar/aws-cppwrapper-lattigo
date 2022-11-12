@@ -6,7 +6,6 @@ package ckks
 import "C"
 
 import (
-	"errors"
 	"github.com/tuneinsight/lattigo/v4/ckks"
 	"github.com/tuneinsight/lattigo/v4/ckks/bootstrapping"
 	"lattigo-cpp/marshal"
@@ -23,28 +22,16 @@ func getStoredBootstrappingParameters(bootParamHandle Handle11) *bootstrapping.P
 
 //export lattigo_getBootstrappingParams
 func lattigo_getBootstrappingParams(logN uint64, logScale uint64, usableLevels uint64, bootstrappingPrecision uint64) Handle11 {
-	for i := 0; i < len(bootstrapping.DefaultParametersSparse); i++ {
-		candidate := bootstrapping.DefaultParametersSparse[i].SchemeParams
-		if logN == uint64(candidate.LogN) && logScale == candidate.LogScale && usableLevels == candidate.UsableLevels && bootstrappingPrecision == candidate.BootstrappingPrecision {
-			bootParams := &bootstrapping.DefaultParametersSparse[i].BootstrappingParams
-			return marshal.CrossLangObjMap.Add(unsafe.Pointer(bootParams))
-		}
-	}
-	panic(errors.New("The requested set of bootstrapping.Parameters does not exist"))
+	bootParams := bootstrapping.MakeFrontendParameters(logN, logScale, usableLevels, bootstrappingPrecision).GetDefaultParametersSparse().BootstrappingParams
+	return marshal.CrossLangObjMap.Add(unsafe.Pointer(&bootParams))
 }
 
 //export lattigo_getDefaultCKKSParams
 func lattigo_getDefaultCKKSParams(logN uint64, logScale uint64, usableLevels uint64, bootstrappingPrecision uint64) Handle11 {
-	for i := 0; i < len(bootstrapping.DefaultParametersSparse); i++ {
-		candidate := bootstrapping.DefaultParametersSparse[i].SchemeParams
-		if logN == uint64(candidate.LogN) && logScale == candidate.LogScale && usableLevels == candidate.UsableLevels && bootstrappingPrecision == candidate.BootstrappingPrecision {
-			scheme_params := &bootstrapping.DefaultParametersSparse[i].SchemeParams
-			params, err := ckks.NewParametersFromLiteral(*scheme_params)
-			if err != nil {
-				panic(err)
-			}
-			return marshal.CrossLangObjMap.Add(unsafe.Pointer(&params))
-		}
+	scheme_params := bootstrapping.MakeFrontendParameters(logN, logScale, usableLevels, bootstrappingPrecision).GetDefaultParametersSparse().SchemeParams
+	params, err := ckks.NewParametersFromLiteral(scheme_params)
+	if err != nil {
+		panic(err)
 	}
-	panic(errors.New("The requested set of bootstrapping.Parameters does not exist"))
+	return marshal.CrossLangObjMap.Add(unsafe.Pointer(&params))
 }
