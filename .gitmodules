@@ -1,4 +1,4 @@
 [submodule "lattigo"]
 	path = lattigo
 	url = git@github.com:n-samar/lattigo.git
-    branch = simplified_param_interface
+    branch = simplifield_param_interface
