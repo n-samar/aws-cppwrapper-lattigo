@@ -56,7 +56,7 @@ set(CGO_INCLUDE_PATH ${CGO_BUILD_ROOT}/cgo_output/include)
 set(CGO_HEADER_DST ${CGO_INCLUDE_PATH}/cgo)
 # This library is compiled from the code in the gowrapper directory.
 # It is where all cross-language calls from C++ into Go go.
-set(LATTIGO_LIB_FULL_PATH ${CGO_BUILD_ROOT}/liblattigo.so)
+set(LATTIGO_LIB_FULL_PATH ${CGO_BUILD_ROOT}/liblattigo.a)
 file(MAKE_DIRECTORY ${CGO_BUILD_ROOT})
 
 # Add the main source tree object library
