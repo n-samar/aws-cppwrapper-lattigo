@@ -76,6 +76,13 @@ add_custom_command(
     go.mod
 )
 
+install(
+    FILES
+        ${LATTIGO_LIB_FULL_PATH}
+    DESTINATION
+        ${CMAKE_INSTALL_LIBDIR}
+)
+
 add_library(latticpp_gowrapper STATIC
     ${CGO_HEADER_DST}/bootstrap.h
     ${CGO_HEADER_DST}/bootstrap_params.h
