@@ -57,7 +57,7 @@ add_custom_command(
   COMMAND go tool cgo -exportheader ${CGO_HEADER_DST}/params.h ckks/params.go
   COMMAND go tool cgo -exportheader ${CGO_HEADER_DST}/precision.h ckks/precision.go
   COMMAND go tool cgo -exportheader ${CGO_HEADER_DST}/storage.h marshal/storage.go
-  COMMAND go build -buildmode=c-shared -o ${LATTIGO_LIB_FULL_PATH}
+  COMMAND go build -buildmode=c-archive -o ${LATTIGO_LIB_FULL_PATH}
   WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
   DEPENDS
     latticppMain.go
@@ -74,6 +74,13 @@ add_custom_command(
     ckks/precision.go
     marshal/storage.go
     go.mod
+)
+
+install(
+    FILES
+        ${LATTIGO_LIB_FULL_PATH}
+    DESTINATION
+        ${CMAKE_INSTALL_LIBDIR}
 )
 
 add_library(latticpp_gowrapper STATIC

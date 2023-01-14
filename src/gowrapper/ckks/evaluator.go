@@ -172,6 +172,7 @@ func lattigo_mulRelinNew(evalHandle Handle4, op0Handle Handle4, op1Handle Handle
 }
 
 // multiply two ciphertexts and relinearize the result
+//
 //export lattigo_mulRelin
 func lattigo_mulRelin(evalHandle Handle4, op0Handle Handle4, op1Handle Handle4, ctOutHandle Handle4) {
 	var eval *ckks.Evaluator
@@ -190,6 +191,7 @@ func lattigo_mulRelin(evalHandle Handle4, op0Handle Handle4, op1Handle Handle4, 
 }
 
 // multiply two ciphertexts without relinearization
+//
 //export lattigo_mul
 func lattigo_mul(evalHandle Handle4, op0Handle Handle4, op1Handle Handle4, ctOutHandle Handle4) {
 	var eval *ckks.Evaluator
@@ -208,6 +210,7 @@ func lattigo_mul(evalHandle Handle4, op0Handle Handle4, op1Handle Handle4, ctOut
 }
 
 // multiply a ciphertext by a plaintext
+//
 //export lattigo_mulPlain
 func lattigo_mulPlain(evalHandle Handle4, ctInHandle Handle4, ptHandle Handle4, ctOutHandle Handle4) {
 	var eval *ckks.Evaluator

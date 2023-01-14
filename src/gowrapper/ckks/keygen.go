@@ -85,6 +85,7 @@ func lattigo_genKeyPair(keygenHandle Handle5) C.struct_Lattigo_KeyPairHandle {
 
 // only generates relinearization keys for ciphertexts up to degree 2
 // (i.e., you must relinearize after each ct/ct multiplication)
+//
 //export lattigo_genRelinearizationKey
 func lattigo_genRelinearizationKey(keygenHandle Handle5, skHandle Handle5) Handle5 {
 	var keygen *rlwe.KeyGenerator
@@ -96,6 +97,7 @@ func lattigo_genRelinearizationKey(keygenHandle Handle5, skHandle Handle5) Handl
 
 // Positive k is for left rotation by k positions
 // Negative k is equivalent to a right rotation by k positions
+//
 //export lattigo_genRotationKeysForRotations
 func lattigo_genRotationKeysForRotations(keygenHandle Handle5, skHandle Handle5, ks *C.int64_t, ksLen uint64) Handle5 {
 	var keygen *rlwe.KeyGenerator
@@ -133,6 +135,7 @@ func lattigo_makeEvaluationKey(relinKeyHandle Handle5, rotKeyHandle Handle5) Han
 }
 
 // Generates any missing Galois keys
+//
 //export lattigo_genBootstrappingKey
 func lattigo_genBootstrappingKey(btpParamsHandle Handle5, paramHandle Handle5, skHandle Handle5) Handle5 {
 
