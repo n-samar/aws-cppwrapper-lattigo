@@ -82,6 +82,28 @@ install(
     DESTINATION
         ${CMAKE_INSTALL_LIBDIR}
 )
+install(
+    FILES
+        ${CGO_HEADER_DST}/bootstrap.h
+        ${CGO_HEADER_DST}/bootstrap_params.h
+        ${CGO_HEADER_DST}/ciphertext.h
+        ${CGO_HEADER_DST}/decryptor.h
+        ${CGO_HEADER_DST}/encoder.h
+        ${CGO_HEADER_DST}/encryptor.h
+        ${CGO_HEADER_DST}/evaluator.h
+        ${CGO_HEADER_DST}/keygen.h
+        ${CGO_HEADER_DST}/marshaler.h
+        ${CGO_HEADER_DST}/params.h
+        ${CGO_HEADER_DST}/precision.h
+    DESTINATION
+        ${LATTICPP_INCLUDES_INSTALL_DIR}/ckks/cgo
+)
+install(
+    FILES
+        ${CGO_HEADER_DST}/storage.h
+    DESTINATION
+        ${LATTICPP_INCLUDES_INSTALL_DIR}/marshal/cgo
+)
 
 add_library(latticpp_gowrapper STATIC
     ${CGO_HEADER_DST}/bootstrap.h
