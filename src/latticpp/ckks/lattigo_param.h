@@ -9,7 +9,7 @@ namespace latticpp {
 
 namespace {
 const std::unordered_map<int, int> log_q0_from_bootstrapping_precision{
-    {19, 55}, {25, 60}, {32, 60}};
+    {19, 55}, {26, 60}, {32, 60}};
 
 }  // namespace
 
